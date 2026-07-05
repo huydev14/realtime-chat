@@ -62,7 +62,7 @@ export const signin = async (req, res) => {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        // If pwd is correct, create JWT
+        // If password is correct, create JWT
         const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_TTL });
 
         // Create refresh token

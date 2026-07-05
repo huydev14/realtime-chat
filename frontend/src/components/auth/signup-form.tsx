@@ -5,13 +5,13 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 
 const signUpSchema = z.object({
-    firstname: z.string().min(1, 'Tên bắt buộc phải có'),
-    lastname: z.string().min(1, 'Họ bắt buộc phải có'),
+    firstName: z.string().min(1, 'Tên bắt buộc phải có'),
+    lastName: z.string().min(1, 'Họ bắt buộc phải có'),
     username: z.string().min(3, 'Tên đăng nhập phải có ít nhất 3 ký tự'),
-    email: z.email('Email không hợp lệ'),
+    email: z.string().email('Email không hợp lệ'),
     password: z.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
 });
 
@@ -29,16 +29,16 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     });
 
     const onSubmit = async (data: SignUpFormValues) => {
-        const { firstname, lastname, username, email, password } = data;
+        const { firstName, lastName, username, email, password } = data;
 
-        await signUp(username, password, email, firstname, lastname);
+        await signUp(username, password, email, firstName, lastName);
 
         // navigate('/signin');
     };
 
     return (
         <div className={cn('flex flex-col gap-6', className)} {...props}>
-            <Card className='overflow-hidden p-0 border-border'>
+            <Card appearance='outline' className='overflow-hidden p-0'>
                 <div className='grid p-0 md:grid-cols-2'>
                     <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-6'>
@@ -48,7 +48,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                                     <img src='/logo.svg' alt='logo' />
                                 </a>
 
-                                <h1 className='text-2xl font-bold'>Tạo tài khoản Moji</h1>
+                                <h1 className='text-2xl font-bold'>Tạo tài khoản { import.meta.env.VITE_APP_NAME }</h1>
                                 <p className='text-muted-foreground text-balance'>
                                     Chào mừng bạn! Hãy đăng ký để bắt đầu!
                                 </p>
@@ -57,32 +57,39 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                             {/* Name */}
                             <div className='grid grid-cols-2 gap-3'>
                                 <div className='space-y-2'>
-                                    <Label htmlFor='lastname' className='block text-sm'>
+                                    <Label htmlFor='lastname' size='medium' required className='block'>
                                         Last name
                                     </Label>
-                                    <Input type='text' id='lastname' className='w-full' {...register('lastname')} />
+                                    <Input type='text' id='lastName' className='w-full' placeholder='' {...register('lastName')} />
 
-                                    {errors.lastname && (
-                                        <p className='text-destructive text-sm'>{errors.lastname.message}</p>
+                                    {errors.lastName && (
+                                        <p className='text-destructive text-sm'>{errors.lastName.message}</p>
                                     )}
                                 </div>
                                 <div className='space-y-2'>
-                                    <Label htmlFor='fistname' className='block text-sm'>
+                                    <Label htmlFor='firstName' size='medium' required className='block'>
                                         First name
                                     </Label>
-                                    <Input type='text' id='firstname' className='w-full' {...register('firstname')} />
-                                    {errors.firstname && (
-                                        <p className='text-destructive text-sm'>{errors.firstname.message}</p>
+                                    <Input type='text' id='firstName' className='w-full' {...register('firstName')} />
+                                    {errors.firstName && (
+                                        <p className='text-destructive text-sm'>{errors.firstName.message}</p>
                                     )}
                                 </div>
                             </div>
 
                             {/* username */}
                             <div className='flex flex-col gap-3'>
-                                <Label htmlFor='username' className='block text-sm'>
+                                <Label htmlFor='username' size='medium' required className='block'>
                                     Username
                                 </Label>
-                                <Input type='text' id='username' placeholder='moji' className='w-full' contentBefore={<PersonRegular />} {...register('username')} />
+                                <Input
+                                    type='text'
+                                    id='username'
+                                    placeholder='username'
+                                    className='w-full'
+                                    contentBefore={<PersonRegular />}
+                                    {...register('username')}
+                                />
                                 {errors.username && (
                                     <p className='text-destructive text-sm'>{errors.username.message}</p>
                                 )}
@@ -90,19 +97,32 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
                             {/* email */}
                             <div className='flex flex-col gap-3'>
-                                <Label htmlFor='email' className='block text-sm'>
+                                <Label htmlFor='email' size='medium' required className='block'>
                                     Email
                                 </Label>
-                                <Input type='email' id='email' placeholder='m@gmail.com' className='w-full' contentBefore={<MailRegular />} {...register('email')} />
+                                <Input
+                                    type='email'
+                                    id='email'
+                                    placeholder='Enter your email'
+                                    className='w-full'
+                                    contentBefore={<MailRegular />}
+                                    {...register('email')}
+                                />
                                 {errors.email && <p className='text-destructive text-sm'>{errors.email.message}</p>}
                             </div>
 
                             {/* password */}
                             <div className='flex flex-col gap-3'>
-                                <Label htmlFor='password' className='block text-sm'>
+                                <Label htmlFor='password' size='medium' required className='block'>
                                     Password
                                 </Label>
-                                <Input type='password' id='password' className='w-full' contentBefore={<KeyRegular />} {...register('password')} />
+                                <Input
+                                    type='password'
+                                    id='password'
+                                    className='w-full'
+                                    contentBefore={<KeyRegular />}
+                                    {...register('password')}
+                                />
                                 {errors.password && (
                                     <p className='text-destructive text-sm'>{errors.password.message}</p>
                                 )}
@@ -114,9 +134,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
                             <div className='text-center text-sm'>
                                 Đã có tài khoản?{' '}
-                                <a href='/signin' className='underline underline-offset-4'>
+                                <Link to='/signin' className='text-primary hover:underline hover:text-primary/80 font-medium transition-colors'>
                                     Đăng nhập
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </form>
@@ -129,10 +149,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                     </div>
                 </div>
             </Card>
-            <div className=' text-xs text-balance px-6 text-center *:[a]:hover:text-primary text-muted-foreground *:[a]:underline *:[a]:underline-offetset-4'>
-                Bằng cách tiếp tục, bạn đồng ý với <a href='#'>Điều khoản dịch vụ</a> và{' '}
-                <a href='#'>Chính sách bảo mật</a> của chúng tôi.
-            </div>
         </div>
     );
 }

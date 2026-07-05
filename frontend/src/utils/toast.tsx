@@ -5,6 +5,7 @@ import {
   useToastController,
   Toast,
   ToastTitle,
+  ToastBody,
 } from '@fluentui/react-components';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
@@ -26,9 +27,17 @@ export const GlobalToaster = () => {
 
   React.useEffect(() => {
     addToast = (message: string, intent: ToastType) => {
+      const titles = {
+        success: 'Success',
+        error: 'Failed',
+        info: 'Notify',
+        warning: 'Warning',
+      };
+
       dispatchToast(
         <Toast>
-          <ToastTitle>{message}</ToastTitle>
+          <ToastTitle>{titles[intent]}</ToastTitle>
+          <ToastBody>{message}</ToastBody>
         </Toast>,
         { intent }
       );
