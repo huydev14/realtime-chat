@@ -1,11 +1,9 @@
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { PersonRegular, KeyRegular } from '@fluentui/react-icons';
+import { Button, Card, Label, Input } from '@fluentui/react-components';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Label } from '../ui/label';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useNavigate } from 'react-router';
 
@@ -36,7 +34,7 @@ export function SigninForm({ className, ...props }: React.ComponentProps<'div'>)
     return (
         <div className={cn('flex flex-col gap-6', className)} {...props}>
             <Card className='overflow-hidden p-0 border-border'>
-                <CardContent className='grid p-0 md:grid-cols-2'>
+                <div className='grid p-0 md:grid-cols-2'>
                     <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-6'>
                             {/* header - logo */}
@@ -56,7 +54,7 @@ export function SigninForm({ className, ...props }: React.ComponentProps<'div'>)
                                 <Label htmlFor='username' className='block text-sm'>
                                     Tên đăng nhập
                                 </Label>
-                                <Input type='text' id='username' placeholder='moji' {...register('username')} />
+                                <Input type='text' id='username' placeholder='username' className='w-full' contentBefore={<PersonRegular />} {...register('username')} />
                                 {errors.username && (
                                     <p className='text-destructive text-sm'>{errors.username.message}</p>
                                 )}
@@ -67,20 +65,20 @@ export function SigninForm({ className, ...props }: React.ComponentProps<'div'>)
                                 <Label htmlFor='password' className='block text-sm'>
                                     Mật khẩu
                                 </Label>
-                                <Input type='password' id='password' {...register('password')} />
+                                <Input type='password' id='password' className='w-full' contentBefore={<KeyRegular />} {...register('password')} />
                                 {errors.password && (
                                     <p className='text-destructive text-sm'>{errors.password.message}</p>
                                 )}
                             </div>
 
                             {/* nút đăng nhập */}
-                            <Button type='submit' className='w-full' disabled={isSubmitting}>
+                            <Button type='submit' appearance='primary' className='w-full' disabled={isSubmitting}>
                                 Đăng nhập
                             </Button>
 
                             <div className='text-center text-sm'>
                                 Chưa có tài khoản?{' '}
-                                <a href='/register' className='underline underline-offset-4'>
+                                <a href='/signup' className='underline underline-offset-4'>
                                     Đăng ký
                                 </a>
                             </div>
@@ -93,7 +91,7 @@ export function SigninForm({ className, ...props }: React.ComponentProps<'div'>)
                             className='absolute top-1/2 -translate-y-1/2 object-cover'
                         />
                     </div>
-                </CardContent>
+                </div>
             </Card>
             <div className=' text-xs text-balance px-6 text-center *:[a]:hover:text-primary text-muted-foreground *:[a]:underline *:[a]:underline-offetset-4'>
                 Bằng cách tiếp tục, bạn đồng ý với <a href='#'>Điều khoản dịch vụ</a> và{' '}

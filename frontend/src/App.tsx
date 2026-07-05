@@ -1,18 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import SigninPage from './pages/SigninPage';
+import SignupPage from './pages/SignupPage';
 import ChatAppPage from './pages/ChatAppPage';
-import { Toaster } from 'sonner';
+import { GlobalToaster } from './utils/toast';
 
 function App() {
     return (
         <>
-            <Toaster richColors/>
+            <GlobalToaster />
             <BrowserRouter>
                 <Routes>
                     {/* Public routes */}
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/register' element={<RegisterPage />} />
+                    <Route path='/signin' element={<SigninPage />} />
+                    <Route path='/signup' element={<SignupPage />} />
 
                     {/* Protected routes */}
                     <Route path='/chat' element={<ChatAppPage />} />

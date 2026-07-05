@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { toast } from 'sonner';
+import { toast } from '../utils/toast';
 import { authService } from '../services/authService';
 import type { AuthState } from '@/types/store';
 

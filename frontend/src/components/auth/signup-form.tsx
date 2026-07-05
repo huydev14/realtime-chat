@@ -1,11 +1,9 @@
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { PersonRegular, KeyRegular, MailRegular } from '@fluentui/react-icons';
+import { Button, Card, Label, Input } from '@fluentui/react-components';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Label } from '../ui/label';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useNavigate } from 'react-router';
 
@@ -35,13 +33,13 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
         await signUp(username, password, email, firstname, lastname);
 
-        // navigate('/login');
+        // navigate('/signin');
     };
 
     return (
         <div className={cn('flex flex-col gap-6', className)} {...props}>
             <Card className='overflow-hidden p-0 border-border'>
-                <CardContent className='grid p-0 md:grid-cols-2'>
+                <div className='grid p-0 md:grid-cols-2'>
                     <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-6'>
                             {/* header - logo */}
@@ -62,7 +60,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                                     <Label htmlFor='lastname' className='block text-sm'>
                                         Last name
                                     </Label>
-                                    <Input type='text' id='lastname' {...register('lastname')} />
+                                    <Input type='text' id='lastname' className='w-full' {...register('lastname')} />
 
                                     {errors.lastname && (
                                         <p className='text-destructive text-sm'>{errors.lastname.message}</p>
@@ -72,7 +70,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                                     <Label htmlFor='fistname' className='block text-sm'>
                                         First name
                                     </Label>
-                                    <Input type='text' id='firstname' {...register('firstname')} />
+                                    <Input type='text' id='firstname' className='w-full' {...register('firstname')} />
                                     {errors.firstname && (
                                         <p className='text-destructive text-sm'>{errors.firstname.message}</p>
                                     )}
@@ -84,7 +82,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                                 <Label htmlFor='username' className='block text-sm'>
                                     Username
                                 </Label>
-                                <Input type='text' id='username' placeholder='moji' {...register('username')} />
+                                <Input type='text' id='username' placeholder='moji' className='w-full' contentBefore={<PersonRegular />} {...register('username')} />
                                 {errors.username && (
                                     <p className='text-destructive text-sm'>{errors.username.message}</p>
                                 )}
@@ -95,7 +93,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                                 <Label htmlFor='email' className='block text-sm'>
                                     Email
                                 </Label>
-                                <Input type='email' id='email' placeholder='m@gmail.com' {...register('email')} />
+                                <Input type='email' id='email' placeholder='m@gmail.com' className='w-full' contentBefore={<MailRegular />} {...register('email')} />
                                 {errors.email && <p className='text-destructive text-sm'>{errors.email.message}</p>}
                             </div>
 
@@ -104,13 +102,13 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                                 <Label htmlFor='password' className='block text-sm'>
                                     Password
                                 </Label>
-                                <Input type='password' id='password' {...register('password')} />
+                                <Input type='password' id='password' className='w-full' contentBefore={<KeyRegular />} {...register('password')} />
                                 {errors.password && (
                                     <p className='text-destructive text-sm'>{errors.password.message}</p>
                                 )}
                             </div>
 
-                            <Button type='submit' className='w-full' disabled={isSubmitting}>
+                            <Button type='submit' appearance='primary' className='w-full' disabled={isSubmitting}>
                                 Tạo tài khoản
                             </Button>
 
@@ -129,7 +127,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                             className='absolute top-1/2 -translate-y-1/2 object-cover'
                         />
                     </div>
-                </CardContent>
+                </div>
             </Card>
             <div className=' text-xs text-balance px-6 text-center *:[a]:hover:text-primary text-muted-foreground *:[a]:underline *:[a]:underline-offetset-4'>
                 Bằng cách tiếp tục, bạn đồng ý với <a href='#'>Điều khoản dịch vụ</a> và{' '}

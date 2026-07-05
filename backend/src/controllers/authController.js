@@ -7,7 +7,7 @@ import Session from '../models/Session.js';
 const ACCESS_TOKEN_TTL = '15m';
 const REFRESH_TOKEN_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
 
-export const register = async (req, res) => {
+export const signup = async (req, res) => {
     try {
         const { username, password, email, firstName, lastName } = req.body;
 
@@ -32,12 +32,12 @@ export const register = async (req, res) => {
 
         return res.sendStatus(204);
     } catch (error) {
-        console.error('Error during registration:', error);
+        console.error('Error during signup:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
 
-export const login = async (req, res) => {
+export const signin = async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -79,9 +79,9 @@ export const login = async (req, res) => {
         });
 
         // return access token to client
-        return res.status(200).json({ message: 'Login successful', accessToken });
+        return res.status(200).json({ message: 'Signin successful', accessToken });
     } catch (error) {
-        console.error('Error during login:', error);
+        console.error('Error during signin:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
