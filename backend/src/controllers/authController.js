@@ -15,16 +15,21 @@ export const signup = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        const duplicate = await User.findOne({ username });
-        if (duplicate) {
-            return res.status(409).json({ message: 'Username already exists' });
+        const duplicateUsername = await User.findOne({ username });
+        if (duplicateUsername) {
+            return res.status(409).json({ message: 'Username has already exist' });
+        }
+
+        const duplicateEmail = await User.findOne({ email });
+        if (duplicateEmail) {
+            return res.status(409).json({ message: 'Email has already exist' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user
         await User.create({
-            userName: username,
+            username,
             hashedPassword: hashedPassword,
             email,
             displayName: `${firstName} ${lastName}`,
