@@ -3,6 +3,7 @@ import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import ChatAppPage from './pages/ChatAppPage';
 import { GlobalToaster } from './utils/toast';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function App() {
     return (
@@ -15,7 +16,9 @@ function App() {
                     <Route path='/signup' element={<SignupPage />} />
 
                     {/* Protected routes */}
-                    <Route path='/chat' element={<ChatAppPage />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route path='/' element={<ChatAppPage />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </>

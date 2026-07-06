@@ -91,17 +91,49 @@ export const signin = async (req, res) => {
     }
 };
 
-export const logout = async (req, res) => {
+export const signout = async (req, res) => {
     try {
         // Get and delete refresh token
         const refreshToken = req.cookies.refreshToken;
-        if(refreshToken) {
+        if (refreshToken) {
             await Session.deleteOne({ refreshToken });
             res.clearCookie('refreshToken');
         }
         return res.sendStatus(204);
     } catch (error) {
-        console.error('Error during logout:', error);
+        console.error('Error during signout:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const refreshToken = async (req, res) => {
+    try {
+        // Get refresh token from cookie
+        const refreshToken = req.cookies?.refreshToken;
+        if(!refreshToken) {
+            return res.status(401).json({ message: 'Refresh token not found' });
+        }
+
+        // Find session with the refresh token
+        const session = await Session.findOne({refreshToken});
+        if(!session) {
+            return res.status(403).json({ message: 'Invalid refresh token' });
+        }
+
+        // Check if refresh token is expired
+        if (session.expiresAt < new Date()) {
+            return res.status(403).json({ message: 'Refresh token expired' });
+        }
+
+        // Generate new access token
+        const accessToken = jwt.sign({
+            userId: session.userId,
+        }, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_TTL });
+
+        return res.status(200).json({ accessToken });
+
+    } catch (error) {
+        console.error('Error during token refresh:', error.response);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
