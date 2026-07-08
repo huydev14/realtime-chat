@@ -1,4 +1,4 @@
-import exress from 'express';
+import express from 'express';
 import {
     sendFriendRequest,
     acceptFriendRequest,
@@ -7,7 +7,7 @@ import {
     getFriendRequests,
 } from '../controllers/friendController.js';
 
-const router = exress.Router();
+const router = express.Router();
 
 router.post('/requests', sendFriendRequest);
 router.post('/requests/:requestId/accept', acceptFriendRequest);

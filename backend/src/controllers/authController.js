@@ -51,7 +51,7 @@ export const signin = async (req, res) => {
         }
 
         // Find user
-        const user = await User.findOne({ userName: username });
+        const user = await User.findOne({ username });
         if (!user) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
